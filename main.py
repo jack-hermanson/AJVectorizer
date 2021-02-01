@@ -1,16 +1,30 @@
 from typing import List
+from time import sleep
+import os
+import signal
 import pyperclip
 
 
 def main():
-    raw_data: str = input('Paste data separated by spaces\n> ')
-    formatted_list: str = list_to_string(raw_to_list(raw_data))
-    try:
-        pyperclip.copy(formatted_list)
-        print('Data copied to clipboard.')
-    except:
-        print('Could not copy to clipboard.')
-    print(formatted_list)
+    print('Enter q to quit\n----')
+    while True:
+        raw_data: str = input('Paste data separated by spaces\n> ')
+        if raw_data == 'q':
+            print('Adiós')
+            sleep(0.25)
+            try:
+                os.kill(os.getppid(), signal.SIGHUP)
+            except:
+                print('err')
+            break
+        formatted_list: str = list_to_string(raw_to_list(raw_data))
+        try:
+            pyperclip.copy(formatted_list)
+            print('Data copied to clipboard.')
+        except:
+            print('Could not copy to clipboard.')
+        print(formatted_list)
+        print()
 
 
 def raw_to_list(raw_data: str) -> List[float]:
